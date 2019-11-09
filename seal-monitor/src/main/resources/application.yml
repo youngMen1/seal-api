@@ -1,0 +1,24 @@
+server:
+  port: 3000
+
+spring:
+  application:
+    name: seal-monitor
+  main:
+    allow-bean-definition-overriding: true
+
+  profiles:
+    active: dev
+  cloud:
+    config:
+      name: ${spring.application.name}
+      profile: ${spring.profiles.active}
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://47.107.152.93:22001/eureka/,http://120.79.101.221:22002/eureka/
+
+

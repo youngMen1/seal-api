@@ -1,0 +1,18 @@
+zuul:
+  routes:
+    seal-auth:
+      path: /api/auth/**
+      serviceId: seal-auth
+    seal-admin:
+      path: /api/admin/**
+      serviceId: seal-admin-biz
+#    sct-monitor:
+#      path: /api/monitor/**
+#      serviceId: sct-monitor
+#    sct-zipkin:
+#      path: /api/zipkin/**
+#      serviceId: sct-zipkin
+#    sct-eureka:
+#      path: /api/eureka/**
+#      serviceId: sct-eureka
+

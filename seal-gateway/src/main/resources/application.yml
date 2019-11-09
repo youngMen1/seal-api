@@ -1,0 +1,53 @@
+server:
+  port: 9999
+
+spring:
+  application:
+    name: seal-gateway
+
+  profiles:
+    active: dev
+  cloud:
+    config:
+      name: ${spring.application.name}
+      profile: ${spring.profiles.active}
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://47.107.152.93:22001/eureka/,http://120.79.101.221:22002/eureka/
+
+zuul:
+  # 需要忽略的头部信息，不在传播到其他服务
+  sensitive-headers: Access-Control-Allow-Origin
+  ignored-headers: Access-Control-Allow-Origin,H-APP-Id,Token,APPToken
+  retryable: true
+  host:
+    # HTTP连接超时要比Hystrix的大
+    connect-timeout-millis: 15000
+    # socket超时
+    socket-timeout-millis: 60000
+ribbon:
+  # 连接超时时间(ms)
+  ConnectTimeout: 10000
+  # 通信超时时间(ms)
+  ReadTimeout: 20000
+  # 是否对所有操作重试
+  OkToRetryOnAllOperations: true
+  # 同一服务不同实例的重试次数
+  MaxAutoRetriesNextServer: 2
+  # 同一实例的重试次数
+  MaxAutoRetries: 1
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            # hystrixTimeout 要大于 ribbonTimeout，否则 hystrix 熔断了以后，ribbon 的重试就都没有意义了
+            # #配置hystrix的超时时间，要大于(RibbonReadTimeout + RibbonConnectTimeout) * (MaxAutoRetries + 1) * (MaxAutoRetriesNextServer + 1)
+            # 熔断超时时长：40000ms
+            timeoutInMilliseconds: 40000
+

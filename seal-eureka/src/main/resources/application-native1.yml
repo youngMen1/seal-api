@@ -1,0 +1,26 @@
+EUREKA_HOST: 120.79.xx.221
+EUREKA_PORT: 22002
+# 提供服务端口22001
+SERVER_PORT: 22001
+spring:
+  application:
+    name: springcloud-eureka-server
+eureka:
+  environment: native
+  server:
+    enable-self-preservation: false
+  instance:
+      hostname: localhost
+      status-page-url: http://${spring.cloud.client.ip-address}:${server.port}/swagger-ui.html
+      prefer-ip-address: true
+      instance-id: ${spring.cloud.client.ip-address}:${server.port}
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+       defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:22002}/eureka/
+server:
+  port: ${SERVER_PORT:22001}
+
+logging:
+  file: /var/log/springcloud/eureka-server-native1.log
